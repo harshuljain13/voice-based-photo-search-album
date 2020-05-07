@@ -1,131 +1,56 @@
-ul {
-    list-style: none;
-    padding: 0;
-}
-body{
-    background :url("bg.jpg")
-}
-p {
-    color: #444;
+body {
+    margin: 20px;
 }
 
-input[type=text]{
-    width:520px;
-    height:50px;
-}
-.upload{
-    width: 450px;
-    font-size: 24px;
-    margin-left: 30px;
-}
-button{
-    background-color: #4abdac;
-    width:70px;
-    height:50px;
-}
-button:focus {
-    outline: 0;
-}
-h3{
-    font-family: Constantia;
-}
-.container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding-left: 50px;
-    text-align: center;
-    border-style: solid;
-    border-width: 5px;
-    background-color: aliceblue;
-    opacity:0.9;
+#transcript {
+    margin: 30px 0;
+    white-space: pre-wrap;
 }
 
-.container h1 {
-    margin-bottom: 20px;
+#imageContainer {
+    margin: 30px 0;
 }
 
-.page-description {
-    font-size: 1.1rem;
-    margin: 0 auto;
+#start-button,
+#stop-button {
+    margin: 5px 0;
 }
 
-.tz-link {
-    font-size: 1em;
-    color: #1da7da;
-    text-decoration: none;
-}
-
-.no-browser-support {
+#error {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.4rem;
+    border-radius: 5px 5px 5px 5px;
+    color: #D8000C;
+    background-color: #FFD2D2;
     display: none;
-    font-size: 1.2rem;
-    color: #e64427;
-    margin-top: 35px;
 }
 
-.app {
-    margin: 40px auto;
-}
-.input-group{
-
-    width:700px;
-
+.isa_error i {
+    margin: 2px 12px;
+    font-size: 1.5em;
+    vertical-align: middle;
 }
 
-#recording-instructions {
-    margin: 15px auto 60px;
+#logo {
+    height: 52px;
 }
 
-#notes {
-    padding-top: 20px;
+#github {
+    fill: #146eb4;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border: 0;
+    right: 0;
 }
 
-.note .header {
-    font-size: 0.9em;
-    color: #888;
-    margin-bottom: 10px;
+.small-caps {
+    font-variant: small-caps;
 }
 
-.note .delete-note,
-.note .listen-note {
-    text-decoration: none;
-    margin-left: 15px;
-}
-
-.note .content {
-    margin-bottom: 40px;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 50px 25px;
-    }
-
-    button {
-        margin-bottom: 10px;
-    }
-
-}
-
-.banner-section img{
-    margin: 5px;
-    height: 200px;
-    width: 275px;
-}
-
-.banner-section{
-    height: 500px;
-    overflow: auto;
-}
-
-
-
-
-/* -- Demo ads -- */
-
-@media (max-width: 1200px) {
-    #bsaHolder{ display:none;}
-}
-
-.input-group-btn{
-    background-color: #1da7da;
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
 }

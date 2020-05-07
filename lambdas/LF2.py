@@ -9,22 +9,16 @@ import boto3
 from botocore.vendored import requests
 
 
-"""
-https://medium.com/@dhruvarora2/access-aws-services-like-rekognition-from-a-vpc-enabled-lambda-b1d6907bae93
-
-follow the above link to tackle VPC issues.
-"""
-
+    
 def lambda_handler(event, context):
     # TODO implement
     os.environ['TZ'] = 'America/New_York'
     time.tzset()
     
     client = boto3.client('lex-runtime')
-    
-    #input_text = event["queryStringParameters"]['q']
-    input_text = "Show me the photos with Water and Canal in them"
-    
+    input_text = event["queryStringParameters"]['q']
+    #input_text = "Show me the photos with tiger in them"
+    print(input_text)
     #logger.debug("In lambda")
     response_lex = client.post_text(
             botName='voicealbumbot',
@@ -32,6 +26,7 @@ def lambda_handler(event, context):
             userId='test',
             inputText=input_text )
             
+    print(response_lex)
     
     if 'slots' in response_lex:
         keys = [response_lex['slots']['keyone'],response_lex['slots']['keytwo']]
@@ -65,18 +60,22 @@ def search_intent(labels):
             url2 = url+label
             resp.append(requests.get(url2).json())
     print (resp)
-  
+    
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket('voicealbumb2')
+
     output = []
     for r in resp:
         if 'hits' in r:
              for val in r['hits']['hits']:
                 key = val['_source']['objectKey']
                 if key not in output:
-                    output.append(key)
+                    if list(bucket.objects.filter(Prefix=key)):
+                        output.append('https://voicealbumb2.s3.amazonaws.com/{}'.format(key))
     #url = "https://vpc-photos-b4al4b3cnk5jcfbvlrgxxu3vhu.us-east-1.es.amazonaws.com/photos/_search?pretty=true&q=*:*"
     #print(url)
     #resp = requests.get(url,headers={"Content-Type": "application/json"}).json()
     #resp = requests.get(url)
     print(output)
 
-    return output
+    return list(set(output))
