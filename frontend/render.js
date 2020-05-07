@@ -5,6 +5,84 @@ var SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecogniti
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
 const icon = document.querySelector('i.fa.fa-microphone');
+
+
+function searchFromVoice() {
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const speechToText = event.results[0][0].transcript;
+    console.log(speechToText);
+
+    document.getElementById("searchbar").value = speechToText;
+    search();
+  }
+}
+
+
+
+function search() {
+  var searchTerm = document.getElementById("searchbar").value;
+  var apigClient = apigClientFactory.newClient({ apiKey: "EiBioXpBIn18FK9nZtntG3il4XqjTqnos8oDWeR8" });
+
+  var params = {
+    "q": searchTerm
+  };
+  var body = {
+    "q": searchTerm
+  };
+
+  var additionalParams = {
+    queryParams: {
+      q: searchTerm
+    }
+  };
+  console.log(searchTerm);
+  apigClient.searchGet(params, body, additionalParams)
+    .then(function (result) {
+      console.log('success OK');
+      showImages(result.data);
+    }).catch(function (result) {
+      console.log("Success not OK");
+    });
+}
+
+
+function showImages(res) {
+  var newDiv = document.getElementById("images");
+  if(typeof(newDiv) != 'undefined' && newDiv != null){
+  while (newDiv.firstChild) {
+    newDiv.removeChild(newDiv.firstChild);
+  }
+  }
+  
+  console.log(res);
+  if (res.length == 0) {
+    var newContent = document.createTextNode("No image to display");
+    newDiv.appendChild(newContent);
+  }
+  else {
+    for (var i = 0; i < res.length; i++) {
+      console.log(res[i]);
+      var newDiv = document.getElementById("images");
+      //newDiv.style.display = 'inline'
+      var newimg = document.createElement("img");
+      var classname = randomChoice(['big', 'vertical', 'horizontal', '']);
+      if(classname){newimg.classList.add();}
+      newimg.src = res[i];
+      newDiv.appendChild(newimg);
+
+      //var currentDiv = document.getElementById("div1");
+      //document.body.insertBefore(newDiv, currentDiv);
+    }
+  }
+}
+
+function randomChoice(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
 const realFileBtn = document.getElementById("realfile");
 console.log(realFileBtn);
 
@@ -54,90 +132,9 @@ function previewFile(input) {
     apigClient.uploadBucketKeyPut(params, encodedStr, additionalParams)
       .then(function (result) {
         console.log('success OK');
-        console.log(result);
-        alert("Photo uploaded successfully!");
       }).catch(function (result) {
         console.log(result);
       });
   }
   reader.readAsDataURL(input.files[0]);
-}
-
-function searchFromVoice() {
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const speechToText = event.results[0][0].transcript;
-    console.log(speechToText);
-
-    document.getElementById("searchbar").value = speechToText;
-    search();
-  }
-}
-
-
-
-function search() {
-  var searchTerm = document.getElementById("searchbar").value;
-  var apigClient = apigClientFactory.newClient({ apiKey: "EiBioXpBIn18FK9nZtntG3il4XqjTqnos8oDWeR8" });
-
-  var params = {
-    "q": searchTerm
-  };
-  var body = {
-    "q": searchTerm
-  };
-
-  var additionalParams = {
-    queryParams: {
-      q: searchTerm
-    }
-  };
-  console.log(searchTerm);
-  apigClient.searchGet(params, body, additionalParams)
-    .then(function (result) {
-      console.log('success OK');
-      console.log(result);
-     console.log(result.data);
-
-     showImages(result.data);
-    }).catch(function (result) {
-      console.log("Success not OK");
-      console.log(result);
-    });
-}
-
-
-function showImages(res) {
-  var newDiv = document.getElementById("images");
-  if(typeof(newDiv) != 'undefined' && newDiv != null){
-  while (newDiv.firstChild) {
-    newDiv.removeChild(newDiv.firstChild);
-  }
-  }
-  
-  console.log(res);
-  if (res.length == 0) {
-    var newContent = document.createTextNode("No image to display");
-    newDiv.appendChild(newContent);
-  }
-  else {
-    for (var i = 0; i < res.length; i++) {
-      console.log(res[i]);
-      var newDiv = document.getElementById("images");
-      //newDiv.style.display = 'inline'
-      var newimg = document.createElement("img");
-      var classname = randomChoice(['big', 'vertical', 'horizontal', '']);
-      if(classname){newimg.classList.add();}
-      newimg.src = res[i];
-      newDiv.appendChild(newimg);
-
-      //var currentDiv = document.getElementById("div1");
-      //document.body.insertBefore(newDiv, currentDiv);
-    }
-  }
-}
-
-function randomChoice(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
 }
