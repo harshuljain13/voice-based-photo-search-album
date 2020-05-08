@@ -16,4 +16,4 @@ Resources:
   VoiceAlbumFrontend:
     Type: AWS::S3::Bucket
     Properties:
-      CodeUri: ./Frontend
+      CodeUri: ./frontend
