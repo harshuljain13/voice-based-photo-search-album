@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     key_name = s3_info['object']['key']
     
     print(bucket_name, key_name)
-    
+    print('hello')
     client = boto3.client('rekognition')
     pass_object = {'S3Object':{'Bucket':bucket_name,'Name':key_name}}
     print(pass_object)
